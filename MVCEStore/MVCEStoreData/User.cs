@@ -8,7 +8,6 @@ namespace MvcEStoreData
         Male, Female
     }
 
-
     public class User : IdentityUser<int>
     {
         #region Properties

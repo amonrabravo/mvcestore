@@ -19,6 +19,8 @@ namespace MvcEStoreData
 
         public virtual Category Category { get; set; }
 
+        #endregion
+
         public override void Build(ModelBuilder builder)
         {
             builder.Entity<Banner>(entity =>
@@ -31,7 +33,5 @@ namespace MvcEStoreData
             });
 
         }
-
-        #endregion
     }
 }

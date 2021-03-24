@@ -20,7 +20,6 @@ namespace MvcEStoreData
 
         #endregion
 
-
         public override void Build(ModelBuilder builder)
         {
             builder.Entity<Rayon>(entity =>

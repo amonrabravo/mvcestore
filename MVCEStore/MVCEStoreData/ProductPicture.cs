@@ -13,8 +13,6 @@ namespace MvcEStoreData
 
         #endregion
 
-
-
         #region Navigation
 
         public virtual Product Product { get; set; }

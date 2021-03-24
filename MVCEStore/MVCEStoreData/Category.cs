@@ -24,6 +24,9 @@ namespace MvcEStoreData
 
         public virtual ICollection<Product> Products { get; set; } = new HashSet<Product>();
 
+
+        #endregion
+
         public override void Build(ModelBuilder builder)
         {
             builder.Entity<Category>(entity =>
@@ -50,7 +53,5 @@ namespace MvcEStoreData
 
             });
         }
-
-        #endregion
     }
 }

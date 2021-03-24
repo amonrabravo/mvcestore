@@ -12,8 +12,6 @@ namespace MvcEStoreData
 
         #region Navigation
 
-
-
         #endregion
 
     }
