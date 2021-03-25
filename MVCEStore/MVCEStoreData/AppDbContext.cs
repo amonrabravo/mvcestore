@@ -36,5 +36,6 @@ namespace MvcEStoreData
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductPicture> ProductPictures { get; set; }
         public virtual DbSet<Rayon> Rayons { get; set; }
+        public virtual DbSet<CategoryProduct> CategoryProducts { get; set; }
     }
 }

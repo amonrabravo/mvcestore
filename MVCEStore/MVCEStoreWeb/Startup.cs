@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MvcEStoreData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +27,59 @@ namespace MVCEStoreWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                switch (Configuration.GetValue<string>("Application:DataBaseProvider"))
+                {
+                    case "mysql":
+                        options.UseMySql(
+                            Configuration.GetConnectionString("MySql"),
+                            ServerVersion.AutoDetect(Configuration.GetConnectionString("MySql")),
+                            config =>
+                            {
+                                config.MigrationsAssembly("MVCEStoreMigrationsMySql");
+                            });
+                        break;
+                    case "sqlserver":
+                    default:
+                        options.UseSqlServer(
+                            Configuration.GetConnectionString("SqlServer"),
+                            config =>
+                            {
+                                config.MigrationsAssembly("MVCEStoreMigrationsSqlServer");
+                            });
+                        break;
+                }
+            });
+
+            services.AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequiredLength = Configuration.GetValue<int>("Application:Security:Password:RequiredLength");
+                options.Password.RequireDigit = Configuration.GetValue<bool>("Application:Security:Password:RequireDigit");
+                options.Password.RequireLowercase = Configuration.GetValue<bool>("Application:Security:Password:RequireLowercase");
+                options.Password.RequireNonAlphanumeric = Configuration.GetValue<bool>("Application:Security:Password:RequireNonAlphanumeric");
+                options.Password.RequireUppercase = Configuration.GetValue<bool>("Application:Security:Password:RequireUppercase");
+                options.Password.RequiredUniqueChars = Configuration.GetValue<int>("Application:Security:Password:RequiredUniqueChars");
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+
+            })
+                .AddEntityFrameworkStores<AppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            AppDbContext context,
+            RoleManager<Role> roleManager,
+            UserManager<User> userManager
+            )
         {
+            context.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -52,6 +103,32 @@ namespace MVCEStoreWeb
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var roles = new[]
+            {
+                new Role { Name = "Administrators", FriendlyName = "Yöneticiler" },
+                new Role { Name = "ProductAdministrators", FriendlyName = "Ürün Yöneticileri" },
+                new Role { Name = "OrderAdministrators", FriendlyName = "Sipariþ Yöneticileri" },
+                new Role { Name = "Members", FriendlyName = "Üyeler" }
+            }
+            .ToList();
+
+            roles.ForEach(p =>
+            {
+                if (!roleManager.RoleExistsAsync(p.Name).Result)
+                    roleManager.CreateAsync(p).Wait();
+            });
+
+            var user = new User
+            {
+                Name = Configuration.GetValue<string>("Application:Security:DefaultAdmin:Name"),
+                UserName = Configuration.GetValue<string>("Application:Security:DefaultAdmin:UserName"),
+            };
+            if (userManager.FindByNameAsync(user.UserName).Result == null)
+            {
+                userManager.CreateAsync(user, Configuration.GetValue<string>("Application:Security:DefaultAdmin:Password")).Wait();
+                userManager.AddToRoleAsync(user, roles.First().Name).Wait();
+            }
         }
     }
 }
