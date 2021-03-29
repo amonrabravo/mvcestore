@@ -26,6 +26,7 @@ namespace MVCEStoreWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
             services.AddControllersWithViews();
 
             services.AddDbContext<AppDbContext>(options =>
@@ -39,7 +40,8 @@ namespace MVCEStoreWeb
                             config =>
                             {
                                 config.MigrationsAssembly("MVCEStoreMigrationsMySql");
-                            });
+                            })
+                            .UseLazyLoadingProxies();
                         break;
                     case "sqlserver":
                     default:
@@ -48,7 +50,8 @@ namespace MVCEStoreWeb
                             config =>
                             {
                                 config.MigrationsAssembly("MVCEStoreMigrationsSqlServer");
-                            });
+                            })
+                            .UseLazyLoadingProxies();
                         break;
                 }
             });
@@ -93,12 +96,21 @@ namespace MVCEStoreWeb
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseStatusCodePagesWithReExecute("/home/error/{0}");
+
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

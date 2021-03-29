@@ -28,10 +28,15 @@ namespace MVCEStoreWeb.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("/home/error/{code:int}")]
+        public IActionResult Error(int code)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            switch (code)
+            {
+                case 404:
+                default:
+                    return View("~/Views/Shared/Error404.cshtml");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcEStoreData.Infrastructure;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MvcEStoreData
 {
@@ -8,6 +9,9 @@ namespace MvcEStoreData
     {
         #region Properties
 
+        [Display(Name = "Reyon Adı")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz!")]
+        [MaxLength(50, ErrorMessage = "{0} alanı en fazla {1} karakter olamalıdır!")]
         public string Name { get; set; }
 
         public int SortOrder { get; set; }
