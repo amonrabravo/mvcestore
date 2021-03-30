@@ -1,30 +1,59 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using MvcEStoreData.Infrastructure;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcEStoreData
 {
-    public class Product : BaseEntity
+    public partial class Product : BaseEntity
     {
         #region Properties
 
+        [Display(Name = "Ürün Adı")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz!")]
+        [MaxLength(250, ErrorMessage = "{0} alanı en fazla {1} karakter olamalıdır!")]
         public string Name { get; set; }
 
         public string Picture { get; set; }
 
+        [Display(Name = "Ürün Kodu")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz!")]
         public string ProductCode { get; set; }
 
+        [Display(Name = "Barkod")]
+        [RegularExpression(@"^[0-9]{13}$", ErrorMessage = "Lütfen geçerli bir {0} yazınız.")]
         public string Barcode { get; set; }
 
         public decimal Price { get; set; }
 
+        [Display(Name = "İndirim Oranı")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz!")]
+        [RegularExpression(@"^[0-9]{0,2}$", ErrorMessage = "Lütfen geçerli bir {0} yazınız.")]
         public int Discount { get; set; }
 
+        [Display(Name = "Açıklamalar")]
+        [DataType(DataType.MultilineText)]
         public string Descriptions { get; set; }
 
         public int Reviews { get; set; }
 
+        [Display(Name = "Marka")]
         public int? BrandId { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Fiyat")]
+        [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "Lütfen geçerli bir {0} yazınız.")]
+        public string PriceText { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Görsel")]
+        public IFormFile PictureFile { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Kategoriler")]
+        public int[] SelectedCategories { get; set; }
 
         #endregion
 

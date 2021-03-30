@@ -1,0 +1,50 @@
+﻿@model Product
+
+<div class="form-group">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ProductCode"></label>
+    <input asp-for="ProductCode" class="form-control" />
+    <span asp-validation-for="ProductCode" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Barcode"></label>
+    <input asp-for="Barcode" class="form-control" />
+    <span asp-validation-for="Barcode" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PriceText"></label>
+    <input asp-for="PriceText" class="form-control" />
+    <span asp-validation-for="PriceText" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PictureFile"></label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="PictureFile">
+        <label class="custom-file-label" for="PictureFile" data-browse="Gözat">görsel dosyası seçiniz</label>
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="BrandId"></label>
+    <select asp-for="BrandId" asp-items="@ViewBag.Brands as SelectList" class="custom-select">
+        <option value="" selected>Seçiniz...</option>
+    </select>
+</div>
+<div class="form-group">
+    <label asp-for="SelectedCategories"></label>
+    <br />
+    <select asp-for="SelectedCategories" asp-items="@ViewBag.Categories as SelectList" class="select2" style="width: 100%;">
+    </select>
+</div>
+<div class="form-group">
+    <label asp-for="Descriptions"></label>
+    <textarea asp-for="Descriptions" class="summernote"></textarea>
+</div>
+<div class="form-group form-check">
+    <input asp-for="Enabled" class="form-check-input" />
+    <label asp-for="Enabled" class="form-check-label"></label>
+</div>
+
