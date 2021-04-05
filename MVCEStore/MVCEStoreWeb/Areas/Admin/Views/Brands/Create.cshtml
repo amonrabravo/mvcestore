@@ -1,6 +1,6 @@
-﻿@model Product
+﻿@model Brand
 @{
-    var entity = "Ürün";
+    var entity = "Marka";
     ViewData["Title"] = $"{entity} Ekleme";
 }
 <form method="post" enctype="multipart/form-data">
@@ -21,7 +21,15 @@
 </form>
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
-    <partial name="Select2Partial" />
-    <partial name="SummernotePartial" />
-    <partial name="ProductPicturePartial" />
+    <script>
+        $(() => {
+            $('#PictureFile').on('change', (e) => {
+                var reader = new FileReader();
+                reader.onloadend = (evt) => {
+                    $('#picturePreview').attr('src', reader.result);
+                };
+                reader.readAsDataURL(document.getElementById('PictureFile').files[0]);
+            });
+        });
+    </script>
 }

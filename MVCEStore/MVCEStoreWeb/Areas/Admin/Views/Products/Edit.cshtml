@@ -3,8 +3,9 @@
     var entity = "Ürün";
     ViewData["Title"] = $"{entity} Güncelleme";
 }
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     @Html.HiddenFor(p => p.Date)
+    @Html.HiddenFor(p => p.Picture)
     <div class="card card-default">
         <div class="card-header">
             <h3 class="card-title">@ViewData["Title"] Formu</h3>
@@ -24,4 +25,5 @@
     <partial name="_ValidationScriptsPartial" />
     <partial name="Select2Partial" />
     <partial name="SummernotePartial" />
+    <partial name="ProductPicturePartial" />
 }

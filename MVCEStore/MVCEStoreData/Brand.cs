@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using MvcEStoreData.Infrastructure;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcEStoreData
 {
@@ -8,11 +11,19 @@ namespace MvcEStoreData
     {
         #region Properties
 
+        [Display(Name = "Marka Adı")]
+        [Required(ErrorMessage = "{0} alanı boş bırakılamaz!")]
+        [MaxLength(50, ErrorMessage = "{0} alanı en fazla {1} karakter olamalıdır!")]
         public string Name { get; set; }
 
         public string Picture { get; set; }
 
         public int SortOrder { get; set; }
+
+
+        [NotMapped]
+        [Display(Name = "Görsel")]
+        public IFormFile PictureFile { get; set; }
 
         #endregion
 

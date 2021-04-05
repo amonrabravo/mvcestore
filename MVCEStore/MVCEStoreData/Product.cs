@@ -55,6 +55,13 @@ namespace MvcEStoreData
         [Display(Name = "Kategoriler")]
         public int[] SelectedCategories { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Görsel Galerisi")]
+        public IFormFile[] PictureFiles { get; set; }
+
+        [NotMapped]
+        public int[] PictureFilesToDeleted { get; set; }
+
         #endregion
 
         #region Navigation

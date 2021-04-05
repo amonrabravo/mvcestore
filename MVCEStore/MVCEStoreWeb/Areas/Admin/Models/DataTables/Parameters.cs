@@ -12,9 +12,7 @@
         {
             get
             {
-                return Columns != null && Order != null && Order.Length > 0
-                    ? (Columns[Order[0].Column].Data + (Order[0].Dir == OrderDir.DESC ? " " + Order[0].Dir : string.Empty))
-                    : null;
+                return Columns != null && Order != null && Order.Length > 0 ? (Columns[Order[0].Column].Data + (Order[0].Dir == OrderDir.DESC ? " " + Order[0].Dir : string.Empty)) : null;
             }
         }
     }

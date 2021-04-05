@@ -1,9 +1,12 @@
-﻿@model Product
+﻿@model Brand
 @{
-    var entity = "Ürün";
-    ViewData["Title"] = $"{entity} Ekleme";
+    var entity = "Marka";
+    ViewData["Title"] = $"{entity} Güncelleme";
 }
 <form method="post" enctype="multipart/form-data">
+    @Html.HiddenFor(p => p.Date)
+    @Html.HiddenFor(p => p.SortOrder)
+    @Html.HiddenFor(p => p.Picture)
     <div class="card card-default">
         <div class="card-header">
             <h3 class="card-title">@ViewData["Title"] Formu</h3>
@@ -21,7 +24,15 @@
 </form>
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
-    <partial name="Select2Partial" />
-    <partial name="SummernotePartial" />
-    <partial name="ProductPicturePartial" />
+    <script>
+        $(() => {
+            $('#PictureFile').on('change', (e) => {
+                var reader = new FileReader();
+                reader.onloadend = (evt) => {
+                    $('#picturePreview').attr('src', reader.result);
+                };
+                reader.readAsDataURL(document.getElementById('PictureFile').files[0]);
+            });
+        });
+    </script>
 }
