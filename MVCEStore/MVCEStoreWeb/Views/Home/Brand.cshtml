@@ -1,0 +1,13 @@
+﻿@model Brand
+@{ 
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="p-2 mb-2">
+    <img class="img-thumbnail" src="@Model.Picture" alt="@Model.Name" />
+    <div class="h5">
+        @Model.Name
+    </div>
+</div>
+
+<partial name="ProductList" model="Model.Products.Where(p=>p.Enabled).ToList()" />

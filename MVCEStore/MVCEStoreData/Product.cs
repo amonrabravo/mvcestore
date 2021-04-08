@@ -62,6 +62,13 @@ namespace MvcEStoreData
         [NotMapped]
         public int[] PictureFilesToDeleted { get; set; }
 
+
+        [NotMapped]
+        public decimal DiscountedPrice => Price - DiscountAmount;
+
+        [NotMapped]
+        public decimal DiscountAmount => (Price * Discount / 100.0m);
+
         #endregion
 
         #region Navigation

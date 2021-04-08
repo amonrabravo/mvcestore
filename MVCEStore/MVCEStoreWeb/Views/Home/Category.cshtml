@@ -1,0 +1,13 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="p-2 mb-2">
+    <div class="h5">
+        @Model.Name
+    </div>
+</div>
+
+<partial name="ProductList" model="Model.CategoryProducts.Select(p=>p.Product).Where(p=>p.Enabled)" />

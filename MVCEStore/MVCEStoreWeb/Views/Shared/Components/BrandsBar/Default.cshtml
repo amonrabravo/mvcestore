@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Brand>
+
+<div class="d-flex flex-wrap justify-content-center p-2 bg-light">
+    @foreach (var brand in Model)
+    {
+        <div class="p-1 border bg-white shadow-sm mx-1">
+            <a asp-route="brand" asp-route-id="@brand.Id" asp-route-name="@brand.Name.ToSafeUrlString()">
+                <img src="@brand.Picture" alt="@brand.Name" height="80" />
+            </a>
+        </div>
+    }
+</div>

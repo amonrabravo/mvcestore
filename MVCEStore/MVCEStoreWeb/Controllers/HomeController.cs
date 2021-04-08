@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MvcEStoreData;
 using MVCEStoreWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -12,15 +14,39 @@ namespace MVCEStoreWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            AppDbContext context
+            )
         {
             _logger = logger;
+            this.context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.FeaturedProducts = await context.Products.Where(p => p.Enabled).OrderBy(p => Guid.NewGuid()).Take(16).ToListAsync();
             return View();
+        }
+
+        public async Task<IActionResult> Category(int id)
+        {
+            var model = await context.Categories.FindAsync(id);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Brand(int id)
+        {
+            var model = await context.Brands.FindAsync(id);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Product(int id)
+        {
+            var model = await context.Products.FindAsync(id);
+            return View(model);
         }
 
         public IActionResult Privacy()

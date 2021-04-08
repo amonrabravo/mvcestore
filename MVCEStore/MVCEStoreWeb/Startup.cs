@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using MvcEStoreData;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -104,12 +106,34 @@ namespace MVCEStoreWeb
 
             app.UseAuthorization();
 
+            app.UseRequestLocalization(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture(CultureInfo.CreateSpecificCulture("tr-TR"));
+            });
+
+
             app.UseEndpoints(endpoints =>
             {
 
                 endpoints.MapControllerRoute(
                     name: "areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "product",
+                    pattern: "p/{id}/{name}.html",
+                    defaults: new { controller = "Home", action = "Product" });
+
+                endpoints.MapControllerRoute(
+                    name: "category",
+                    pattern: "c/{id}/{name}.html",
+                    defaults: new { controller = "Home", action = "Category" });
+
+                endpoints.MapControllerRoute(
+                    name: "brand",
+                    pattern: "b/{id}/{name}.html",
+                    defaults: new { controller = "Home", action = "Brand" });
+
 
                 endpoints.MapControllerRoute(
                     name: "default",

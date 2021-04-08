@@ -9,7 +9,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @foreach (var category in rayon.Categories)
             {
-                <a class="dropdown-item" href="#">@category.Name</a>
+                <a class="dropdown-item" asp-route="category" asp-route-id="@category.Id" asp-route-name="@category.Name.ToSafeUrlString()">@category.Name</a>
             }
         </div>
     </li>

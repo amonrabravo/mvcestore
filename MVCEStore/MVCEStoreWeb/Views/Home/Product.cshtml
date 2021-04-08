@@ -1,0 +1,76 @@
+﻿@model Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row mb-4">
+    <div class="col-12 col-md-6">
+        <img class="img-thumbnail" src="@Model.Picture" alt="@Model.Name" />
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="h2">
+            @Model.Name
+        </div>
+        <div class="mb-2">
+            @foreach (var category in Model.CategoryProducts.Select(p => p.Category).Where(p => p.Enabled))
+            {
+                <a asp-route="category" asp-route-id="@category.Id" asp-route-name="@category.Name.ToSafeUrlString()" class="mr-2">
+                    @category.Rayon.Name / @category.Name
+                </a>
+            }
+        </div>
+        @if (Model.Discount > 0)
+        {
+            <div class="d-flex mb-2">
+                <div class="py-2 px-4 text-center h2 bg-danger text-white d-flex align-items-center">
+                    <div>
+                        %@Model.Discount.ToString("n0")
+                    </div>
+                </div>
+                <div class="flex-fill p-2">
+                    <div class="text-muted h4" style="text-decoration: line-through">
+                        @Model.Price.ToString("c2")
+                    </div>
+                    <div class="text-success h2">
+                        @Model.DiscountedPrice.ToString("c2")
+                    </div>
+                    <div class="text-secondary small">
+                        Kazancınız : @Model.DiscountAmount.ToString("c2")
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="text-success h2 mb-2">
+                @Model.Price.ToString("c2")
+            </div>
+        }
+        @if (Model.DiscountedPrice > 100)
+        {
+            <div class="mb-2">
+                <i class="fa fa-truck"></i> Ücretsiz kargo
+            </div>
+        }
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="productTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="desc-tab" data-toggle="tab" href="#desc" role="tab" aria-controls="desc" aria-selected="true"><i class="fa fa-file"></i> Açıklamalar</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false"><i class="fa fa-comments"></i> Yorumlar</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false"><i class="fa fa-credit-card"></i> Ödeme Seçenekleri</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active p-2" id="desc" role="tabpanel" aria-labelledby="home-tab">
+        @Html.Raw(@Model.Descriptions)
+    </div>
+    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="profile-tab">...</div>
+    <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="contact-tab">...</div>
+</div>
