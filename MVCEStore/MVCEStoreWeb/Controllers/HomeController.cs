@@ -59,6 +59,11 @@ namespace MVCEStoreWeb.Controllers
             return Redirect("/");
         }
 
+        public IActionResult Checkout()
+        {
+            var model = shoppingCartService.GetCart();
+            return View(model);
+        }
         public IActionResult Privacy()
         {
             return View();

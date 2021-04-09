@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using MvcEStoreData;
 using MVCEStoreWeb.Models;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MVCEStoreWeb.Services
@@ -44,6 +46,20 @@ namespace MVCEStoreWeb.Services
             {
                 httpContextAccessor.HttpContext.Response.Cookies.Delete("shoppingCart");
             });
+        }
+
+        public ShoppingCart GetCart()
+        {
+            var cookie = httpContextAccessor.HttpContext.Request.Cookies["shoppingCart"];
+            var shoppingCart = new ShoppingCart();
+            if (!string.IsNullOrEmpty(cookie))
+                shoppingCart = JsonConvert.DeserializeObject<ShoppingCart>(cookie);
+            var products = context.Products.Where(p => shoppingCart.Items.Select(q => q.ProductId).Any(q => q == p.Id)).ToList();
+            shoppingCart
+                .Items
+                .ToList()
+                .ForEach(p => p.Product = products.Single(q => q.Id == p.ProductId));
+            return shoppingCart;
         }
 
         public async Task RemoveFromCart(int productId)

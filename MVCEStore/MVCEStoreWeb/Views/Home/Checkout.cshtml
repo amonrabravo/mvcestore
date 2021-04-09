@@ -1,0 +1,85 @@
+﻿@model ShoppingCart
+@{
+    ViewData["Title"] = "Satın Al";
+}
+
+@if (!Model.Items.Any())
+{
+    <div class="p-5 text-center">
+        Henüz sepetinizde ürün bulunmamaktadır...
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 90px;">Foto</th>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th>İndirim (%)</th>
+                <th>İndirimli Fiyat</th>
+                <th>Miktar</th>
+                <th>Tutar</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        <a asp-route="product" asp-route-id="@item.ProductId" asp-route-name="@item.Product.Name.ToSafeUrlString()">
+                            <img class="img-thumbnail" src="@item.Product.Picture" />
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-route="product" asp-route-id="@item.ProductId" asp-route-name="@item.Product.Name.ToSafeUrlString()">
+                            @item.Product.Name
+                        </a>
+                    </td>
+                    <td class="text-right text-monospace">
+                        @item.Product.Price.ToString("c2")
+                    </td>
+                    <td class="text-right text-monospace">
+                        @item.Product.Discount.ToString("c2")
+                    </td>
+                    <td class="text-right text-monospace">
+                        @item.Product.DiscountedPrice.ToString("c2")
+                    </td>
+                    <td class="text-right text-monospace">
+                        @item.Quantity.ToString("n0")
+                    </td>
+                    <td class="text-right text-monospace">
+                        @item.Amount.ToString("c2")
+                    </td>
+                    <td>
+                        <a asp-controller="Home" asp-action="RemoveFromCart" asp-route-id="@item.ProductId">
+                            <i class="fa fa-trash text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5"></td>
+                <td>Toplam</td>
+                <td class="text-right text-monospace">@Model.Items.Sum(p=>p.Product.Price * p.Quantity).ToString("c2")</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td>İndirim</td>
+                <td class="text-right text-monospace">@Model.Items.Sum(p => p.Product.DiscountAmount * p.Quantity).ToString("c2")</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td>Genel Toplam</td>
+                <td class="text-right text-monospace">@Model.GrandTotal.ToString("c2")</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+}
