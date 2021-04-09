@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcEStoreData;
+using MVCEStoreWeb.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -72,6 +73,8 @@ namespace MVCEStoreWeb
 
             })
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

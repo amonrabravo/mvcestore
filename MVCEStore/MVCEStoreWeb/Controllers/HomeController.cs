@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MvcEStoreData;
 using MVCEStoreWeb.Models;
+using MVCEStoreWeb.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,14 +16,17 @@ namespace MVCEStoreWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext context;
+        private readonly IShoppingCartService shoppingCartService;
 
         public HomeController(
             ILogger<HomeController> logger,
-            AppDbContext context
+            AppDbContext context,
+            IShoppingCartService shoppingCartService
             )
         {
             _logger = logger;
             this.context = context;
+            this.shoppingCartService = shoppingCartService;
         }
 
         public async Task<IActionResult> Index()
@@ -47,6 +51,12 @@ namespace MVCEStoreWeb.Controllers
         {
             var model = await context.Products.FindAsync(id);
             return View(model);
+        }
+
+        public async Task<IActionResult> AddToCart(int id)
+        {
+            await shoppingCartService.AddToCart(id, 1);
+            return Redirect("/");
         }
 
         public IActionResult Privacy()

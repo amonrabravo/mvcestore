@@ -7,9 +7,9 @@
     <link href="~/css/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-light">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/content/images/logo.png" width="160" height="30" class="d-inline-block align-top" />
@@ -34,8 +34,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container border-left border-right bg-white shadow">
+        <main role="main" class="py-3">
             @RenderBody()
             <hr />
             @await Component.InvokeAsync("BrandsBar")
