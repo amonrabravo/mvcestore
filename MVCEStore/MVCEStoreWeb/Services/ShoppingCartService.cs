@@ -44,7 +44,11 @@ namespace MVCEStoreWeb.Services
         {
             await Task.Run(() =>
             {
-                httpContextAccessor.HttpContext.Response.Cookies.Delete("shoppingCart");
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Today.AddMonths(-1),
+                };
+                httpContextAccessor.HttpContext.Response.Cookies.Delete("shoppingCart", cookieOptions);
             });
         }
 

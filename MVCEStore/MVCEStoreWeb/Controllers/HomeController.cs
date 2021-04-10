@@ -56,7 +56,22 @@ namespace MVCEStoreWeb.Controllers
         public async Task<IActionResult> AddToCart(int id)
         {
             await shoppingCartService.AddToCart(id, 1);
-            return Redirect("/");
+            TempData["success"] = "Ürün başarıyla sepetinize eklenmiştir...";
+            return RedirectToAction("Checkout");
+        }
+
+        public async Task<IActionResult> RemoveFromCart(int id)
+        {
+            await shoppingCartService.RemoveFromCart(id);
+            TempData["success"] = "Ürün başarıyla sepetinizden çıkartılmıştır...";
+            return RedirectToAction("Checkout");
+        }
+
+        public async Task<IActionResult> ClearCart()
+        {
+            await shoppingCartService.ClearCart();
+            TempData["success"] = "Sepetiniz boşaltılmıştır...";
+            return RedirectToAction("Checkout");
         }
 
         public IActionResult Checkout()
@@ -64,6 +79,7 @@ namespace MVCEStoreWeb.Controllers
             var model = shoppingCartService.GetCart();
             return View(model);
         }
+
         public IActionResult Privacy()
         {
             return View();

@@ -11,6 +11,11 @@
 }
 else
 {
+    <div class="p-2 text-right">
+        <a class="btn btn-danger" asp-action="ClearCart">
+            <i class="fa fa-trash"></i> Sepeti Boşalt
+        </a>
+    </div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -65,7 +70,7 @@ else
             <tr>
                 <td colspan="5"></td>
                 <td>Toplam</td>
-                <td class="text-right text-monospace">@Model.Items.Sum(p=>p.Product.Price * p.Quantity).ToString("c2")</td>
+                <td class="text-right text-monospace">@Model.Items.Sum(p => p.Product.Price * p.Quantity).ToString("c2")</td>
                 <td></td>
             </tr>
             <tr>

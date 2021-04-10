@@ -51,6 +51,26 @@
     </header>
     <div class="container border-left border-right bg-white shadow">
         <main role="main" class="py-3">
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show">
+                    <i class="fa fa-check mr-2"></i>
+                    @TempData["success"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <i class="fa fa-times mr-2"></i>
+                    @TempData["error"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
             @RenderBody()
             <hr />
             @await Component.InvokeAsync("BrandsBar")
