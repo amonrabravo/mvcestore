@@ -8,3 +8,7 @@ $secondary : #808080;
 $enable-rounded: false;
 
 @import "bootstrap/scss/bootstrap.scss";
+
+.gallery-picture {
+    cursor: pointer;
+}

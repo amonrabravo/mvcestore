@@ -5,7 +5,20 @@
 
 <div class="row mb-4">
     <div class="col-12 col-md-6">
-        <img class="img-thumbnail" src="@Model.Picture" alt="@Model.Name" />
+        <a id="lightboxLink" href="@Model.Picture" data-lightbox="product_@Model.Id" data-title="@Model.Name">
+            <img id="lightboxImg" class="img-thumbnail" src="@Model.Picture" alt="@Model.Name" />
+        </a>
+        <div class="d-flex justify-content-center">
+            <div class="border mx-1 p-1">
+                <img src="@Model.Picture" alt="@Model.Name" width="80" class="gallery-picture" />
+            </div>
+            @foreach (var galleryPicture in Model.ProductPictures.Where(p => p.Enabled))
+            {
+                <div class="border mx-1 p-1">
+                    <img src="@galleryPicture.Picture" alt="@Model.Name" width="80" class="gallery-picture" />
+                </div>
+            }
+        </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="h2">
@@ -77,3 +90,16 @@
     <div class="tab-pane fade border border-top-0" id="comments" role="tabpanel" aria-labelledby="profile-tab">...</div>
     <div class="tab-pane fade border border-top-0" id="payments" role="tabpanel" aria-labelledby="contact-tab">...</div>
 </div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" integrity="sha512-k2GFCTbp9rQU412BStrcD/rlwv1PYec9SNrkbQlo6RZCf75l6KcC3UwDY8H5n5hl4v77IDtIPwOk9Dqjs/mMBQ==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA==" crossorigin="anonymous" />
+    <script>
+        $(() => {
+            $('.gallery-picture').on('click', (e) => {
+                $('#lightboxLink').attr('href', $(e.currentTarget).attr('src'));
+                $('#lightboxImg').attr('src', $(e.currentTarget).attr('src'));
+            });
+        });
+    </script>
+}

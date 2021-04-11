@@ -11,12 +11,22 @@
             <p class="card-text">
                 @if (Model.Discount > 0)
                 {
-                    <div class="text-muted" style="text-decoration: line-through">
-                        @Model.Price.ToString("c2")
+                    <div class="d-flex">
+                        <div class="bg-danger text-white h4 px-2 d-flex align-items-center">
+                            <div>
+                                %@Model.Discount
+                            </div>
+                        </div>
+                        <div class="flex-fill px-2">
+                            <div class="text-muted" style="text-decoration: line-through">
+                                @Model.Price.ToString("c2")
+                            </div>
+                            <div class="text-success h5">
+                                @Model.DiscountedPrice.ToString("c2")
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-success h5">
-                        @Model.DiscountedPrice.ToString("c2")
-                    </div>
+
                 }
                 else
                 {
