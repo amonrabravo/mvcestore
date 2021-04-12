@@ -2,12 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using MvcEStoreData.Infrastructure;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MvcEStoreData
 {
     public enum Genders
     {
-        Male, Female
+        [Display(Name = "Bay")]
+        Male, 
+        [Display(Name = "Bayan")]
+        Female
     }
 
     public class User : IdentityUser<int>, IBaseEntity

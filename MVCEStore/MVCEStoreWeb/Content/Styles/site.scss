@@ -3,7 +3,7 @@ $primary: #2b90fc;
 $success: #99d05b;
 $warning: #e1b526;
 $danger: #e50000;
-$secondary : #808080;
+$secondary: #808080;
 
 $enable-rounded: false;
 
@@ -11,4 +11,19 @@ $enable-rounded: false;
 
 .gallery-picture {
     cursor: pointer;
+}
+
+.field-validation-error {
+    color: $danger;
+    font-size: .75rem;
+}
+
+.validation-summary-errors {
+    background-color: lighten($danger, 80);
+    color: $danger;
+    padding: 32px;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
 }

@@ -12,10 +12,15 @@ namespace MVCEStoreWeb.Controllers
     public class AccountController : Controller
     {
         private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
 
-        public AccountController(SignInManager<User> signInManager)
+        public AccountController(
+            SignInManager<User> signInManager,
+            UserManager<User> userManager
+            )
         {
             this.signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         public IActionResult Login(string returnUrl)
@@ -40,6 +45,39 @@ namespace MVCEStoreWeb.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            var user = new User
+            {
+                UserName = model.UserName,
+                Name = model.Name,
+                Gender = model.Gender
+            };
+            var result = await userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    if (error.Code == "DuplicateUserName")
+                        ModelState.AddModelError("", "Kullanıcı zaten kayıtlı");
+                }
+                return View(model);
+            }
+            else
+            {
+
+                return View("RegisterSuccess");
+            }
+
         }
 
 
