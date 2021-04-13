@@ -71,10 +71,16 @@ namespace MVCEStoreWeb
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
                 options.Lockout.MaxFailedAccessAttempts = 3;
 
+                options.SignIn.RequireConfirmedEmail = true;
+
             })
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddErrorDescriber<TurkishIdentityErrorDescriber>()
+                .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<IMessageService, MessageService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

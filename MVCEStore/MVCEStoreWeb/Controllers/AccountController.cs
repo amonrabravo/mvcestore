@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MvcEStoreData;
 using MVCEStoreWeb.Models;
+using MVCEStoreWeb.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +15,20 @@ namespace MVCEStoreWeb.Controllers
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly IMessageService messageService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public AccountController(
             SignInManager<User> signInManager,
-            UserManager<User> userManager
+            UserManager<User> userManager,
+            IMessageService messageService,
+            IHttpContextAccessor httpContextAccessor
             )
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.messageService = messageService;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Login(string returnUrl)
@@ -67,14 +75,15 @@ namespace MVCEStoreWeb.Controllers
             {
                 foreach (var error in result.Errors)
                 {
-                    if (error.Code == "DuplicateUserName")
-                        ModelState.AddModelError("", "Kullanıcı zaten kayıtlı");
+                    ModelState.AddModelError("", error.Description);
                 }
                 return View(model);
             }
             else
             {
-
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var link = Url.Action("EmailConfirmation", "Account", new { token = token }, httpContextAccessor.HttpContext.Request.Scheme);
+                await messageService.SendEmailConfirmationMessage(model.UserName, model.Name, link);
                 return View("RegisterSuccess");
             }
 
