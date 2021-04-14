@@ -180,6 +180,7 @@ namespace MVCEStoreWeb
                 userManager.CreateAsync(user, Configuration.GetValue<string>("Application:Security:DefaultAdmin:Password")).Wait();
                 userManager.AddToRoleAsync(user, roles.First().Name).Wait();
             }
+
         }
     }
 }

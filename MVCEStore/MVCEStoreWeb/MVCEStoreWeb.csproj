@@ -27,6 +27,7 @@
     <ProjectReference Include="..\MVCEStoreData\MVCEStoreData.csproj" />
     <ProjectReference Include="..\MVCEStoreMigrationsMySql\MVCEStoreMigrationsMySql.csproj" />
     <ProjectReference Include="..\MVCEStoreMigrationsSqlServer\MVCEStoreMigrationsSqlServer.csproj" />
+    <ProjectReference Include="..\MVCEStorePayment\MVCEStorePayment.csproj" />
   </ItemGroup>
 
   <ItemGroup>
