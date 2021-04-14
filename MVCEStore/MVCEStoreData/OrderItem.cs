@@ -20,6 +20,9 @@ namespace MvcEStoreData
 
         public int Discount { get; set; }
 
+        public decimal DiscountedPrice => Price - (Price * Discount / 100);
+        
+        public decimal Amount => Quantity * DiscountedPrice;
 
         #endregion
 

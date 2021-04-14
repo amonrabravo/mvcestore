@@ -1,12 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcEStoreData.Infrastructure;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MvcEStoreData
 {
     public enum OrderStatus
     {
-        New, Shipped, Cancelled
+        [Display(Name = "Yeni")]
+        New,
+        [Display(Name = "Gönderildi")]
+        Shipped,
+        [Display(Name = "İptal Edildi")]
+        Cancelled
     }
 
 
@@ -18,6 +25,7 @@ namespace MvcEStoreData
 
         public string ShippingNumber { get; set; }
 
+        public decimal GrandTotal => OrderItems.Sum(p => p.Amount);
         #endregion
 
 

@@ -1,0 +1,80 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Siparişlerim";
+}
+
+<h2>Siparişlerim</h2>
+
+<div class="card">
+    <div class="card-header">
+        Yeni Siparişlerim
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sip. No.</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                    <th>Tutar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders.Where(p => p.OrderStatus == OrderStatus.New).OrderBy(p => p.Date))
+                {
+                    <tr>
+                        <td>
+                            @order.Id.ToString("00000000")
+                        </td>
+                        <td>
+                            @order.Date.ToLongDateString()
+                        </td>
+                        <td>
+                            @order.OrderStatus.ToString()
+                        </td>
+                        <td class="text-right text-monospace">
+                            @order.GrandTotal.ToString("c2")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <table class="table table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 80px">Foto</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Fiyat</th>
+                                        <th>Miktar</th>
+                                        <th>Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orderItem in order.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@orderItem.Product.Picture" class="img-thumbnail" />
+                                            </td>
+                                            <td>
+                                                <b>@orderItem.Product.Name</b>
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.DiscountedPrice.ToString("c2")
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.Quantity.ToString("n0")
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.Amount.ToString("c2")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

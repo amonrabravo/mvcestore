@@ -38,12 +38,7 @@
                         @await Component.InvokeAsync("RayonMenu")
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Login">Kullanıcı Girişi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Register">Yeni Üyelik</a>
-                        </li>
+                        @await Component.InvokeAsync("UserBar") 
                     </ul>
                 </div>
             </div>

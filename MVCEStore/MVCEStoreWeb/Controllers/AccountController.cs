@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MvcEStoreData;
@@ -81,14 +82,35 @@ namespace MVCEStoreWeb.Controllers
             }
             else
             {
+                await userManager.AddToRoleAsync(user, "Members");
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                var link = Url.Action("EmailConfirmation", "Account", new { token = token }, httpContextAccessor.HttpContext.Request.Scheme);
+                var link = Url.RouteUrl("emailconfirmation", new { id = user.Id, token = token }, httpContextAccessor.HttpContext.Request.Scheme);
                 await messageService.SendEmailConfirmationMessage(model.UserName, model.Name, link);
                 return View("RegisterSuccess");
             }
 
         }
 
+        public async Task<IActionResult> EmailConfirmation(string id, string token)
+        {
+            token = System.Net.WebUtility.UrlDecode(token);
+            var user = await userManager.FindByIdAsync(id);
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            return View(result.Succeeded ? "EmailConfirmationSuccess" : "EmailConfirmationFail");
+        }
 
+        [Authorize]
+        public async Task<IActionResult> Orders()
+        {
+            var model = await userManager.FindByNameAsync(User.Identity.Name);
+            return View(model);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var model = await userManager.FindByNameAsync(User.Identity.Name);
+            return View(model);
+        }
     }
 }

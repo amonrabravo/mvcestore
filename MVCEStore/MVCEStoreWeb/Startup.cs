@@ -143,6 +143,12 @@ namespace MVCEStoreWeb
                     pattern: "b/{id}/{name}.html",
                     defaults: new { controller = "Home", action = "Brand" });
 
+                endpoints.MapControllerRoute(
+                    name: "emailconfirmation",
+                    pattern: "emailconfirmation/{id}/{token}",
+                    defaults: new { controller = "Account", action = "EmailConfirmation" });
+
+
 
                 endpoints.MapControllerRoute(
                     name: "default",
