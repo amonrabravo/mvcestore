@@ -7,6 +7,9 @@ namespace MVCEStorePayment
     {
         string BankName { get; set; }
 
+        public string MerchantId { get; set; }
+        public string Password { get; set; }
+
         Task<PaymentResult> Payment(PaymentRequest paymentRequest);
 
     }

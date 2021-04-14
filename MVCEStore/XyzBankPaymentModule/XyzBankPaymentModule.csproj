@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>D:\Source\Udemy\mvcestore\src\mvcestore\MVCEStore\MVCEStoreWeb\wwwroot\paymentmodules\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MVCEStorePayment\MVCEStorePayment.csproj" />
+  </ItemGroup>
+
+</Project>

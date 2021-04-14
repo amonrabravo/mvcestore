@@ -9,5 +9,6 @@
         public string SecurityCode { get; set; }
         public int Instalments { get; set; }
         public decimal Amount { get; set; }
+        public string BankName { get; set; }
     }
 }
