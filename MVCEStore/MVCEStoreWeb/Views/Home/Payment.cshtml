@@ -1,0 +1,93 @@
+﻿@model PaymentRequest
+@{
+    ViewData["Title"] = "Ödeme";
+
+    var shoppingCart = ViewData["shoppingCart"] as ShoppingCart;
+    var months = Enumerable.Range(1, 12).Select(p => new SelectListItem { Value = p.ToString(), Text = p.ToString("00") }).ToList();
+    var years = Enumerable.Range(DateTime.Today.Year, 10).Select(p => new SelectListItem { Value = p.ToString(), Text = p.ToString() }).ToList();
+}
+
+<div class="card">
+    <div class="card-body">
+
+        <p>
+            <strong class="text-info">@shoppingCart.GrandTotal.ToString("c2")</strong> tutarındaki alış verişinizin ödemesini, aşağıdaki forma kart bilgilerinizi girerk yapabilirsiniz.
+        </p>
+
+        <form method="post">
+            <input type="hidden" asp-for="BankName" />
+            <div class="form-row">
+                <div class="col-12 col-md-6 form-group">
+                    <label asp-for="CardNumber"></label>
+                    <input asp-for="CardNumber" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="CardNumber"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="p-2">
+                        Banka Adı : <span class="text-info" id="bankName"></span>
+                    </div>
+                    <div class="p-2">
+                        Kart : <span class="text-info" id="cardName"></span>
+                    </div>
+                    <div class="p-2">
+                        <i class="fa fa-spinner fa-spin fade hide" id="cardSpinner"></i>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-12 col-md-6 form-group">
+                    <label asp-for="CardHolderName"></label>
+                    <input asp-for="CardHolderName" class="form-control" />
+                    <span asp-validation-for="CardHolderName"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-6 col-md-2 form-group form-inline">
+                    <label asp-for="ExpireMonth"></label>
+                    <select asp-for="ExpireMonth" asp-items="@months" class="custom-select ml-2">
+                        <option value="" selected disabled></option>
+                    </select>
+                    <span asp-validation-for="ExpireMonth"></span>
+                </div>
+                <div class="col-6 col-md-2 form-group form-inline">
+                    <label asp-for="ExpireYear"></label>
+                    <select asp-for="ExpireYear" asp-items="@years" class="custom-select ml-2">
+                        <option value="" selected disabled></option>
+                    </select>
+                    <span asp-validation-for="ExpireYear"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-12 col-md-6 form-group">
+                    <label asp-for="SecurityCode"></label>
+                    <input asp-for="SecurityCode" class="form-control" />
+                    <span asp-validation-for="SecurityCode"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-credit-card"></i> Öde</button>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(() => {
+            $('#CardNumber').keyup((e) => {
+                var value = $(e.currentTarget).val();
+                if (value.length == 6) {
+                    $('#cardSpinner').removeClass('hide').addClass('show');
+                    $.get(`@Url.Action("GetBankData", "Home")/?binNumber=${value}`)
+                        .then((result) => {
+                            $('#bankName').text(result.bank.name);
+                            $('#cardName').text(result.scheme);
+                            $('#cardSpinner').removeClass('show').addClass('hide');
+                            $('#BankName').val(result.bank.name);
+                        });
+                }
+            });
+        });
+    </script>
+}

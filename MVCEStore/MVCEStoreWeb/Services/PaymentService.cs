@@ -14,7 +14,7 @@ namespace MVCEStoreWeb.Services
     {
         private readonly IWebHostEnvironment hostEnvironment;
         private readonly IConfiguration configuration;
-        private readonly IDictionary<string, IPaymentModule> modules;
+        private readonly IDictionary<string, IPaymentModule> modules = new Dictionary<string, IPaymentModule>();
 
         public PaymentService(
             IWebHostEnvironment hostEnvironment,
@@ -30,7 +30,7 @@ namespace MVCEStoreWeb.Services
                     Assembly
                     .LoadFile(p)
                     .GetTypes()
-                    .Where(q => q.GetInterfaces().Any(r => r.Name == nameof(IPaymentModule)))
+                    .Where(q => !q.IsAbstract && q.GetInterfaces().Any(r => r.Name == nameof(IPaymentModule)))
                     .ToList()
                     .ForEach(q =>
                     {

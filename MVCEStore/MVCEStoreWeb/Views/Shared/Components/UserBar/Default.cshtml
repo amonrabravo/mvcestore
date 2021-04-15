@@ -1,6 +1,4 @@
-﻿@model User
-
-@if (Model == null)
+﻿@if (ViewData["user"] == null)
 {
     <li class="nav-item">
         <a class="nav-link" asp-controller="Account" asp-action="Login">
@@ -17,14 +15,16 @@
 }
 else
 {
+    var user = ViewData["user"] as User;
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Hoşgeldiniz Sn. <b>@Model.Name</b>
+            Hoşgeldiniz Sn. <b>@user.Name</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-controller="Account" asp-action="Orders">
                 <i class="fa fa-shopping-basket"></i>
                 Siparişlerim
+                <span class="ml-2 badge badge-success">@user.Orders.Count(p => p.OrderStatus == OrderStatus.New).ToString("n0")</span>
             </a>
             <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
                 <i class="fa fa-wrench"></i>

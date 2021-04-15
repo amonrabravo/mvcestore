@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MvcEStoreData;
+using MVCEStorePayment;
 using MVCEStoreWeb.Models;
 using MVCEStoreWeb.Services;
 using System;
@@ -17,16 +20,22 @@ namespace MVCEStoreWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext context;
         private readonly IShoppingCartService shoppingCartService;
+        private readonly IPaymentService paymentService;
+        private readonly UserManager<User> userManager;
 
         public HomeController(
             ILogger<HomeController> logger,
             AppDbContext context,
-            IShoppingCartService shoppingCartService
+            IShoppingCartService shoppingCartService,
+            IPaymentService paymentService,
+            UserManager<User> userManager
             )
         {
             _logger = logger;
             this.context = context;
             this.shoppingCartService = shoppingCartService;
+            this.paymentService = paymentService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -78,6 +87,68 @@ namespace MVCEStoreWeb.Controllers
         {
             var model = shoppingCartService.GetCart();
             return View(model);
+        }
+
+        [Authorize]
+        public IActionResult Payment()
+        {
+            ViewData["shoppingCart"] = shoppingCartService.GetCart();
+            return View(new PaymentRequest());
+        }
+
+        [Authorize, HttpPost]
+        public async Task<IActionResult> Payment(PaymentRequest model)
+        {
+            model.Amount = shoppingCartService.GetCart().GrandTotal;
+            var result = await paymentService.Payment(model);
+            if (result.Succeeded)
+            {
+                var user = await userManager.FindByNameAsync(User.Identity.Name);
+                var shoppingCart = shoppingCartService.GetCart();
+
+                var order = new Order
+                {
+                    Date = DateTime.Now,
+                    Enabled = true,
+                    OrderStatus = OrderStatus.New,
+                    UserId = user.Id
+
+                };
+                shoppingCart
+                    .Items
+                    .ToList()
+                    .ForEach(async p =>
+                    {
+                        var product = await context.Products.FindAsync(p.ProductId);
+
+                        var orderItem = new OrderItem
+                        {
+                            Discount = product.Discount,
+                            Price = product.Price,
+                            ProductId = product.Id,
+                            Quantity = p.Quantity
+                        };
+                        context.Entry(orderItem).State = EntityState.Added;
+                        order.OrderItems.Add(orderItem);
+                    });
+
+                await shoppingCartService.ClearCart();
+
+                context.Entry(order).State = EntityState.Added;
+                await context.SaveChangesAsync();
+                TempData["success"] = "Teşekkürler, ödeme işleminiz başarıyla tamamlanmıştır.";
+                return RedirectToAction("Orders", "Account");
+            }
+            else
+            {
+                TempData["error"] = result.Error;
+                return View(model);
+            }
+        }
+
+        public async Task<IActionResult> GetBankData(string binNumber)
+        {
+            return Json(await BinQuery.CreateQuery(binNumber));
         }
 
         public IActionResult Privacy()

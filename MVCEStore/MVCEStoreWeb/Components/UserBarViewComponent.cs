@@ -22,13 +22,12 @@ namespace MVCEStoreWeb.Components
         public IViewComponentResult Invoke()
         {
             var userName = httpContextAccessor.HttpContext.User.Identity.Name;
-            if (string.IsNullOrEmpty(userName))
-                return View();
-            else
+            if (!string.IsNullOrEmpty(userName))
             {
                 var model = userManager.FindByNameAsync(userName).Result;
-                return View(model);
+                ViewData["user"] = model;
             }
+            return View();
         }
     }
 }
