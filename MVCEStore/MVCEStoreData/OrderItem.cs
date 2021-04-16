@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MvcEStoreData.Infrastructure;
+using MVCEStoreData.Infrastructure;
 
-namespace MvcEStoreData
+namespace MVCEStoreData
 {
 
     public class OrderItem : IBaseEntity

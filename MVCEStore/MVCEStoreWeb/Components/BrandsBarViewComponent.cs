@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MvcEStoreData;
+using MVCEStoreData;
 using System.Linq;
 
 namespace MVCEStoreWeb.Components

@@ -1,8 +1,120 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model DashboardDataViewModel
 @{
     ViewData["Title"] = "Hoşgeldiniz";
 }
 
-<h2>Welcome!</h2>
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h1>
+                    @Model.NewOrders.Count().ToString("n0")
+                </h1>
+
+                <p>Yeni Siparişler</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-shopping-cart"></i>
+            </div>
+            <a asp-controller="Orders" asp-action="Index" class="small-box-footer">daha <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h1>
+                    @Model.SalesTotal.ToString("c2")
+                </h1>
+
+                <p>Toplam Satış</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-chart-bar"></i>
+            </div>
+            <a asp-controller="Orders" asp-action="Index" class="small-box-footer">daha <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h1>
+                    @Model.SalesThisMonth.ToString("c2")
+                </h1>
+
+                <p>Aylık Satış</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-chart-bar"></i>
+            </div>
+            <a asp-controller="Orders" asp-action="Index" class="small-box-footer">daha <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h1>
+                    @Model.Users.ToString("n0")
+                </h1>
+
+                <p>Üyeler</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-user-plus"></i>
+            </div>
+            <a asp-controller="Users" asp-action="Index" class="small-box-footer">daha <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <section class="col-lg-7 connectedSortable ui-sortable">
+        <div class="card">
+            <div class="card-header ui-sortable-handle" style="cursor: move;">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-pie mr-1"></i>
+                    @DateTime.Today.Year Aylık Satış
+                </h3>
+                <div class="card-tools">
+
+                </div>
+                <div class="card-body">
+                    <canvas id="revenue-chart-canvas" height="300" style="height: 300px; display: block; width: 100%" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="col-lg-5 connectedSortable ui-sortable">
+    </section>
+    <!-- right col -->
+</div>
+
+@section Scripts {
+    <link href="~/js/admin/chart.js/Chart.min.css" rel="stylesheet" />
+    <script src="~/js/admin/chart.js/Chart.bundle.min.js"></script>
+    <script>
+        $(() => {
+
+        const salesChartData = {
+            labels: [@Html.Raw(string.Join(",", Model.SalesData.Select(p=>$"'{p.MonthName}'")))],
+            datasets: [
+                {
+                    label: 'Aylık Satış',
+                    data: [@Html.Raw(string.Join(",", Model.SalesData.Select(p=>p.Sales)))],
+                    borderColor: '#FF1133F0',
+                    backgroundColor: '#FF113390',
+                    fill: true,
+                    smooth: true
+                }
+            ]
+        };
+
+        const salesChartConfig = {
+            type: 'line',
+            data: salesChartData
+        };
+        var salesChartCanvas = document.getElementById('revenue-chart-canvas').getContext('2d')
+        var salesChart = new Chart(salesChartCanvas, salesChartConfig)
+
+    });
+    </script>
+}

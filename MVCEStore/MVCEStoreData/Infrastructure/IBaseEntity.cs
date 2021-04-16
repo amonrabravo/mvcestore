@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MvcEStoreData.Infrastructure
+namespace MVCEStoreData.Infrastructure
 {
     public interface IBaseEntity
     {

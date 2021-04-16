@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MvcEStoreData;
+using MVCEStoreData;
 using MVCEStoreWeb.Models;
 using MVCEStoreWeb.Services;
 using System;

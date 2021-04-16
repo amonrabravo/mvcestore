@@ -6,39 +6,78 @@
 <h2>Siparişlerim</h2>
 
 <div class="card">
-    <div class="card-header">
-        Yeni Siparişlerim
-    </div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Sip. No.</th>
-                    <th>Tarih</th>
-                    <th>Durum</th>
-                    <th>Tutar</th>
-                </tr>
-            </thead>
-            <tbody>
+        <ul class="nav nav-tabs" id="ordersTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="true">
+                    Yeni Sparişler <span class="badge badge-pill badge-light">@Model.Orders.Count(p => p.OrderStatus == OrderStatus.New).ToString("n0")</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="shipped-tab" data-toggle="tab" href="#shipped" role="tab" aria-controls="shipped" aria-selected="true">
+                    Gönderilmiş Sparişler <span class="badge badge-pill badge-light">@Model.Orders.Count(p => p.OrderStatus == OrderStatus.Shipped).ToString("n0")</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="cancelled-tab" data-toggle="tab" href="#cancelled" role="tab" aria-controls="cancelled" aria-selected="true">
+                    İptal Sparişler <span class="badge badge-pill badge-light">@Model.Orders.Count(p => p.OrderStatus == OrderStatus.Cancelled).ToString("n0")</span>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="ordersTabContent">
+            <div class="tab-pane fade show active p-2 border border-top-0" id="new" role="tabpanel">
                 @foreach (var order in Model.Orders.Where(p => p.OrderStatus == OrderStatus.New).OrderBy(p => p.Date))
                 {
-                    <tr>
-                        <td>
-                            @order.Id.ToString("00000000")
-                        </td>
-                        <td>
-                            @order.Date.ToLongDateString()
-                        </td>
-                        <td>
-                            @order.OrderStatus.ToString()
-                        </td>
-                        <td class="text-right text-monospace">
-                            @order.GrandTotal.ToString("c2")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <table class="table table-sm table-bordered table-striped">
+                    <div class="mb-4 p-2 bg-light">
+                        <table class="table bg-white table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 5%"><i class="fa fa-bars"></i></th>
+                                    <th class="text-center" style="width: 15%">Adet</th>
+                                    <th style="width: 20%">Sip. No.</th>
+                                    <th style="width: 20%">Tarih</th>
+                                    <th style="width: 20%">Durum</th>
+                                    <th style="width: 20%">Tutar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-light detail-toggler" data-toggle="collapse" data-target="#detailRow_@order.Id">
+                                            <i class="fa fa-caret-right"></i>
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        @order.OrderItems.Count.ToString("n0")
+                                    </td>
+                                    <td>
+                                        @order.Id.ToString("00000000")
+                                    </td>
+                                    <td>
+                                        @order.Date.ToLongDateString()
+                                    </td>
+                                    <td>
+                                        @switch (order.OrderStatus)
+                                        {
+                                            case OrderStatus.New:
+                                                <span class="text-warning">Yeni</span>
+                                                break;
+                                            case OrderStatus.Shipped:
+                                                <span class="text-success">Gönderilmiş</span>
+                                                break;
+                                            case OrderStatus.Cancelled:
+                                                <span class="text-danger">İptal</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-right text-monospace">
+                                        <b>@order.GrandTotal.ToString("c2")</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="detailRow_@order.Id" class="fade collapse pt-2 pl-5">
+                            <table class="table table-secondary table-sm table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th style="width: 80px">Foto</th>
@@ -56,7 +95,7 @@
                                                 <img src="@orderItem.Product.Picture" class="img-thumbnail" />
                                             </td>
                                             <td>
-                                                <b>@orderItem.Product.Name</b>
+                                                <a asp-route="product" asp-route-id="@orderItem.ProductId" asp-route-name="@orderItem.Product.Name.ToSafeUrlString()">@orderItem.Product.Name</a>
                                             </td>
                                             <td class="text-right text-monospace">
                                                 @orderItem.DiscountedPrice.ToString("c2")
@@ -71,10 +110,198 @@
                                     }
                                 </tbody>
                             </table>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 }
-            </tbody>
-        </table>
+            </div>
+            <div class="tab-pane fade p-2 border border-top-0" id="shipped" role="tabpanel">
+                @foreach (var order in Model.Orders.Where(p => p.OrderStatus == OrderStatus.Shipped).OrderBy(p => p.Date))
+                {
+                    <div class="mb-4 p-2 bg-light">
+                        <table class="table bg-white table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 5%"><i class="fa fa-bars"></i></th>
+                                    <th class="text-center" style="width: 15%">Adet</th>
+                                    <th style="width: 20%">Sip. No.</th>
+                                    <th style="width: 20%">Tarih</th>
+                                    <th style="width: 20%">Durum</th>
+                                    <th style="width: 20%">Tutar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-light detail-toggler" data-toggle="collapse" data-target="#detailRow_@order.Id">
+                                            <i class="fa fa-caret-right"></i>
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        @order.OrderItems.Count.ToString("n0")
+                                    </td>
+                                    <td>
+                                        @order.Id.ToString("00000000")
+                                    </td>
+                                    <td>
+                                        @order.Date.ToLongDateString()
+                                    </td>
+                                    <td>
+                                        @switch (order.OrderStatus)
+                                        {
+                                            case OrderStatus.New:
+                                                <span class="text-warning">Yeni</span>
+                                                break;
+                                            case OrderStatus.Shipped:
+                                                <span class="text-success">Gönderilmiş</span>
+                                                break;
+                                            case OrderStatus.Cancelled:
+                                                <span class="text-danger">İptal</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-right text-monospace">
+                                        <b>@order.GrandTotal.ToString("c2")</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="detailRow_@order.Id" class="fade collapse pt-2 pl-5">
+                            <table class="table table-secondary table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 80px">Foto</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Fiyat</th>
+                                        <th>Miktar</th>
+                                        <th>Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orderItem in order.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@orderItem.Product.Picture" class="img-thumbnail" />
+                                            </td>
+                                            <td>
+                                                <a asp-route="product" asp-route-id="@orderItem.ProductId" asp-route-name="@orderItem.Product.Name.ToSafeUrlString()">@orderItem.Product.Name</a>
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.DiscountedPrice.ToString("c2")
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.Quantity.ToString("n0")
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.Amount.ToString("c2")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="tab-pane fade p-2 border border-top-0" id="cancelled" role="tabpanel">
+                @foreach (var order in Model.Orders.Where(p => p.OrderStatus == OrderStatus.Cancelled).OrderBy(p => p.Date))
+                {
+                    <div class="mb-4 p-2 bg-light">
+                        <table class="table bg-white table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 5%"><i class="fa fa-bars"></i></th>
+                                    <th class="text-center" style="width: 15%">Adet</th>
+                                    <th style="width: 20%">Sip. No.</th>
+                                    <th style="width: 20%">Tarih</th>
+                                    <th style="width: 20%">Durum</th>
+                                    <th style="width: 20%">Tutar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-light detail-toggler" data-toggle="collapse" data-target="#detailRow_@order.Id">
+                                            <i class="fa fa-caret-right"></i>
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        @order.OrderItems.Count.ToString("n0")
+                                    </td>
+                                    <td>
+                                        @order.Id.ToString("00000000")
+                                    </td>
+                                    <td>
+                                        @order.Date.ToLongDateString()
+                                    </td>
+                                    <td>
+                                        @switch (order.OrderStatus)
+                                        {
+                                            case OrderStatus.New:
+                                                <span class="text-warning">Yeni</span>
+                                                break;
+                                            case OrderStatus.Shipped:
+                                                <span class="text-success">Gönderilmiş</span>
+                                                break;
+                                            case OrderStatus.Cancelled:
+                                                <span class="text-danger">İptal</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-right text-monospace">
+                                        <b>@order.GrandTotal.ToString("c2")</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="detailRow_@order.Id" class="fade collapse pt-2 pl-5">
+                            <table class="table table-secondary table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 80px">Foto</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Fiyat</th>
+                                        <th>Miktar</th>
+                                        <th>Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orderItem in order.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@orderItem.Product.Picture" class="img-thumbnail" />
+                                            </td>
+                                            <td>
+                                                <a asp-route="product" asp-route-id="@orderItem.ProductId" asp-route-name="@orderItem.Product.Name.ToSafeUrlString()">@orderItem.Product.Name</a>
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.DiscountedPrice.ToString("c2")
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.Quantity.ToString("n0")
+                                            </td>
+                                            <td class="text-right text-monospace">
+                                                @orderItem.Amount.ToString("c2")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(() => {
+            $('.detail-toggler').on('click', (e) => {
+                $(e.currentTarget).find("i").toggleClass('fa-rotate-90');
+            });
+        });
+    </script>
+}

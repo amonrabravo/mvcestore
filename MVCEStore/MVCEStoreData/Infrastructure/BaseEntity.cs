@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MvcEStoreData.Infrastructure
+namespace MVCEStoreData.Infrastructure
 {
     public abstract class BaseEntity : IBaseEntity
     {

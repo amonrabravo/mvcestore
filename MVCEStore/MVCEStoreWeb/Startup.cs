@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MvcEStoreData;
+using MVCEStoreData;
 using MVCEStoreWeb.Services;
 using System;
 using System.Collections.Generic;

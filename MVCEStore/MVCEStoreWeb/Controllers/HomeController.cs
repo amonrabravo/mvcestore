@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MvcEStoreData;
+using MVCEStoreData;
 using MVCEStorePayment;
 using MVCEStoreWeb.Models;
 using MVCEStoreWeb.Services;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MvcEStoreData;
+using MVCEStoreData;
 
 namespace MVCEStoreMigrationsSqlServer.Migrations
 {
@@ -120,7 +120,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Banner", b =>
+            modelBuilder.Entity("MVCEStoreData.Banner", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +156,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("Banners");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Brand", b =>
+            modelBuilder.Entity("MVCEStoreData.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -195,7 +195,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Category", b =>
+            modelBuilder.Entity("MVCEStoreData.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,7 +234,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.CategoryProduct", b =>
+            modelBuilder.Entity("MVCEStoreData.CategoryProduct", b =>
                 {
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -249,7 +249,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("CategoryProducts");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Order", b =>
+            modelBuilder.Entity("MVCEStoreData.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -278,7 +278,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.OrderItem", b =>
+            modelBuilder.Entity("MVCEStoreData.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -310,7 +310,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Product", b =>
+            modelBuilder.Entity("MVCEStoreData.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -375,7 +375,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.ProductPicture", b =>
+            modelBuilder.Entity("MVCEStoreData.ProductPicture", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -408,7 +408,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("ProductPictures");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Rayon", b =>
+            modelBuilder.Entity("MVCEStoreData.Rayon", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -442,7 +442,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("Rayons");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Role", b =>
+            modelBuilder.Entity("MVCEStoreData.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -474,7 +474,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.User", b =>
+            modelBuilder.Entity("MVCEStoreData.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -549,7 +549,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("MvcEStoreData.Role", null)
+                    b.HasOne("MVCEStoreData.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -558,7 +558,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("MvcEStoreData.User", null)
+                    b.HasOne("MVCEStoreData.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -567,7 +567,7 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("MvcEStoreData.User", null)
+                    b.HasOne("MVCEStoreData.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -576,13 +576,13 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("MvcEStoreData.Role", null)
+                    b.HasOne("MVCEStoreData.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MvcEStoreData.User", null)
+                    b.HasOne("MVCEStoreData.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -591,21 +591,21 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("MvcEStoreData.User", null)
+                    b.HasOne("MVCEStoreData.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Banner", b =>
+            modelBuilder.Entity("MVCEStoreData.Banner", b =>
                 {
-                    b.HasOne("MvcEStoreData.Category", "Category")
+                    b.HasOne("MVCEStoreData.Category", "Category")
                         .WithMany("Banners")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("Banners")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -616,9 +616,9 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Brand", b =>
+            modelBuilder.Entity("MVCEStoreData.Brand", b =>
                 {
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("Brands")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -627,15 +627,15 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Category", b =>
+            modelBuilder.Entity("MVCEStoreData.Category", b =>
                 {
-                    b.HasOne("MvcEStoreData.Rayon", "Rayon")
+                    b.HasOne("MVCEStoreData.Rayon", "Rayon")
                         .WithMany("Categories")
                         .HasForeignKey("RayonId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -646,15 +646,15 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.CategoryProduct", b =>
+            modelBuilder.Entity("MVCEStoreData.CategoryProduct", b =>
                 {
-                    b.HasOne("MvcEStoreData.Category", "Category")
+                    b.HasOne("MVCEStoreData.Category", "Category")
                         .WithMany("CategoryProducts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MvcEStoreData.Product", "Product")
+                    b.HasOne("MVCEStoreData.Product", "Product")
                         .WithMany("CategoryProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -665,9 +665,9 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Order", b =>
+            modelBuilder.Entity("MVCEStoreData.Order", b =>
                 {
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -676,15 +676,15 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.OrderItem", b =>
+            modelBuilder.Entity("MVCEStoreData.OrderItem", b =>
                 {
-                    b.HasOne("MvcEStoreData.Order", "Order")
+                    b.HasOne("MVCEStoreData.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MvcEStoreData.Product", "Product")
+                    b.HasOne("MVCEStoreData.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -695,14 +695,14 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Product", b =>
+            modelBuilder.Entity("MVCEStoreData.Product", b =>
                 {
-                    b.HasOne("MvcEStoreData.Brand", "Brand")
+                    b.HasOne("MVCEStoreData.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -713,15 +713,15 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.ProductPicture", b =>
+            modelBuilder.Entity("MVCEStoreData.ProductPicture", b =>
                 {
-                    b.HasOne("MvcEStoreData.Product", "Product")
+                    b.HasOne("MVCEStoreData.Product", "Product")
                         .WithMany("ProductPictures")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("ProductPictures")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -732,9 +732,9 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Rayon", b =>
+            modelBuilder.Entity("MVCEStoreData.Rayon", b =>
                 {
-                    b.HasOne("MvcEStoreData.User", "User")
+                    b.HasOne("MVCEStoreData.User", "User")
                         .WithMany("Rayons")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -743,24 +743,24 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Brand", b =>
+            modelBuilder.Entity("MVCEStoreData.Brand", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Category", b =>
+            modelBuilder.Entity("MVCEStoreData.Category", b =>
                 {
                     b.Navigation("Banners");
 
                     b.Navigation("CategoryProducts");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Order", b =>
+            modelBuilder.Entity("MVCEStoreData.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Product", b =>
+            modelBuilder.Entity("MVCEStoreData.Product", b =>
                 {
                     b.Navigation("CategoryProducts");
 
@@ -769,12 +769,12 @@ namespace MVCEStoreMigrationsSqlServer.Migrations
                     b.Navigation("ProductPictures");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.Rayon", b =>
+            modelBuilder.Entity("MVCEStoreData.Rayon", b =>
                 {
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("MvcEStoreData.User", b =>
+            modelBuilder.Entity("MVCEStoreData.User", b =>
                 {
                     b.Navigation("Banners");
 

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MvcEStoreData.Infrastructure;
+using MVCEStoreData.Infrastructure;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MvcEStoreData
+namespace MVCEStoreData
 {
     public class Category : BaseEntity
     {

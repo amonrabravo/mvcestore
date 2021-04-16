@@ -1,4 +1,4 @@
-﻿using MvcEStoreData;
+﻿using MVCEStoreData;
 
 namespace MVCEStoreWeb.Models
 {

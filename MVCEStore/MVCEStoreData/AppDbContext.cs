@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MvcEStoreData.Infrastructure;
+using MVCEStoreData.Infrastructure;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace MvcEStoreData
+namespace MVCEStoreData
 {
     public class AppDbContext : IdentityDbContext<User, Role, int>
     {

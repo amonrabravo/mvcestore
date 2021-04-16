@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace MvcEStoreData
+namespace MVCEStoreData
 {
     public class Role : IdentityRole<int>
     {

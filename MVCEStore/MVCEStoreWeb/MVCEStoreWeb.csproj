@@ -37,6 +37,10 @@
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="wwwroot\js\admin\chart.js\Chart.bundle.js" />
+    <None Include="wwwroot\js\admin\chart.js\Chart.bundle.min.js" />
+    <None Include="wwwroot\js\admin\chart.js\Chart.js" />
+    <None Include="wwwroot\js\admin\chart.js\Chart.min.js" />
   </ItemGroup>
 
 </Project>

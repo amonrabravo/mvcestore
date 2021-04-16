@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MvcEStoreData.Infrastructure;
+using MVCEStoreData.Infrastructure;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MvcEStoreData
+namespace MVCEStoreData
 {
     public enum Genders
     {

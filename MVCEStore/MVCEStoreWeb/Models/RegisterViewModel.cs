@@ -1,4 +1,4 @@
-﻿using MvcEStoreData;
+﻿using MVCEStoreData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

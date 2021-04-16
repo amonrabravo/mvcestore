@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MvcEStoreData.Infrastructure;
+using MVCEStoreData.Infrastructure;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace MvcEStoreData
+namespace MVCEStoreData
 {
     public enum OrderStatus
     {
