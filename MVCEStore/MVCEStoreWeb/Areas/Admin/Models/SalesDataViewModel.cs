@@ -3,7 +3,8 @@
     public class SalesDataViewModel
     {
         public string MonthName { get; set; }
-        public string Sales { get; set; }
+        public string InvariantValue { get; set; }
+        public decimal Value { get; set; }
 
     }
 }

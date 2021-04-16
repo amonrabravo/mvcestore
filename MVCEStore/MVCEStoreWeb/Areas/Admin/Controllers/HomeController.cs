@@ -43,7 +43,7 @@ namespace MVCEStoreWeb.Areas.Admin.Controllers
                 SalesData =
                 Enumerable.Range(1, 12)
                 .GroupJoin(monthLySales, p => p, q => q.MonthNumber, (p, q) => new { MonthNumber = p, MonthlySales = q })
-                .SelectMany(p => p.MonthlySales.DefaultIfEmpty(), (p, q) => new SalesDataViewModel { MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(p.MonthNumber), Sales = (q?.Sales ?? 0).ToString(CultureInfo.InvariantCulture) })
+                .SelectMany(p => p.MonthlySales.DefaultIfEmpty(), (p, q) => new SalesDataViewModel { MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(p.MonthNumber), Value = (q?.Sales ?? 0), InvariantValue = (q?.Sales ?? 0).ToString(CultureInfo.InvariantCulture) })
                 .ToList()
             };
             return View(model);

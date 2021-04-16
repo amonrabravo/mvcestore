@@ -93,9 +93,8 @@ namespace MVCEStoreWeb.Controllers
 
         public async Task<IActionResult> EmailConfirmation(string id, string token)
         {
-            token = System.Net.WebUtility.UrlDecode(token);
             var user = await userManager.FindByIdAsync(id);
-            var result = await userManager.ConfirmEmailAsync(user, token);
+            var result = await userManager.ConfirmEmailAsync(user, System.Net.WebUtility.UrlDecode(token));
             return View(result.Succeeded ? "EmailConfirmationSuccess" : "EmailConfirmationFail");
         }
 
