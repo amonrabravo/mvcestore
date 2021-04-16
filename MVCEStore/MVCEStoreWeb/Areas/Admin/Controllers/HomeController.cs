@@ -36,9 +36,11 @@ namespace MVCEStoreWeb.Areas.Admin.Controllers
             {
                 Users = await context.Users.CountAsync(),
                 NewOrders = await context.Orders.Where(p => p.OrderStatus == OrderStatus.New).ToListAsync(),
+                MostProductReviews = await context.Products.OrderByDescending(p => p.Reviews).Take(5).ToListAsync(),
+                MostProductSales = (await context.OrderItems.Where(p => p.Order.OrderStatus == OrderStatus.Shipped || p.Order.OrderStatus == OrderStatus.New).ToListAsync()).AsEnumerable().GroupBy(p => p.Product, p => p).Select(p => new ProductSalesViewModel { Product = p.Key, Sales = p.Sum(q => q.Amount), Quantity = p.Sum(q => q.Quantity) }).OrderByDescending(p => p.Sales).Take(5).ToList(),
                 SalesTotal = (await context.Orders.Where(p => p.OrderStatus == OrderStatus.New || p.OrderStatus == OrderStatus.Shipped).ToListAsync()).Sum(p => p.GrandTotal),
                 SalesThisMonth = (await context.Orders.Where(p => p.Date >= DateTime.Today.AddDays(-DateTime.Today.Day) && (p.OrderStatus == OrderStatus.New || p.OrderStatus == OrderStatus.Shipped)).ToListAsync()).Sum(p => p.GrandTotal),
-                SalesData = 
+                SalesData =
                 Enumerable.Range(1, 12)
                 .GroupJoin(monthLySales, p => p, q => q.MonthNumber, (p, q) => new { MonthNumber = p, MonthlySales = q })
                 .SelectMany(p => p.MonthlySales.DefaultIfEmpty(), (p, q) => new SalesDataViewModel { MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(p.MonthNumber), Sales = (q?.Sales ?? 0).ToString(CultureInfo.InvariantCulture) })

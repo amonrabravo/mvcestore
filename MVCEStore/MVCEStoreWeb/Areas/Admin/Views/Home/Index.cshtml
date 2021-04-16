@@ -69,14 +69,11 @@
 <div class="row">
     <section class="col-lg-7 connectedSortable ui-sortable">
         <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-chart-pie mr-1"></i>
+                    <i class="fas fa-chart-area mr-1"></i>
                     @DateTime.Today.Year Aylık Satış
                 </h3>
-                <div class="card-tools">
-
-                </div>
                 <div class="card-body">
                     <canvas id="revenue-chart-canvas" height="300" style="height: 300px; display: block; width: 100%" class="chartjs-render-monitor"></canvas>
                 </div>
@@ -84,6 +81,87 @@
         </div>
     </section>
     <section class="col-lg-5 connectedSortable ui-sortable">
+        <div class="card card-success mb-2">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-gifts mr-1"></i>
+                    Çok Satan Ürünler
+                </h3>
+                <div class="card-body p-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Ürün Adı</th>
+                                <th>Toplam Satış Adedi</th>
+                                <th>Toplam Satış Tutarı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var productSale in Model.MostProductSales)
+                            {
+                                <tr>
+                                    <td style="width: 80px">
+                                        <img src="@productSale.Product.Picture" class="img-thumbnail" />
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Products" asp-action="Edit" asp-route-id="@productSale.Product.Id">
+                                            @productSale.Product.Name
+                                        </a>
+                                    </td>
+                                    <td class="text-right text-monospace">
+                                        @productSale.Quantity.ToString("n0")
+                                    </td>
+                                    <td class="text-right text-monospace">
+                                        @productSale.Sales.ToString("c2")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card card-info mb-2">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-gifts mr-1"></i>
+                    En Çok Görüntülenen Ürünler
+                </h3>
+                <div class="card-body p-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Ürün Adı</th>
+                                <th>Görüntülenme Adedi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var productReview in Model.MostProductReviews)
+                            {
+                                <tr>
+                                    <td style="width: 80px">
+                                        <img src="@productReview.Picture" class="img-thumbnail" />
+                                    </td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 300px;">
+                                            <a asp-controller="Products" asp-action="Edit" asp-route-id="@productReview.Id">
+                                                @productReview.Name
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-right text-monospace">
+                                        @productReview.Reviews.ToString("n0")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </section>
     <!-- right col -->
 </div>

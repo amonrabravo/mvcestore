@@ -11,7 +11,7 @@ namespace MVCEStoreWeb.Areas.Admin.Models
         public decimal SalesThisMonth { get; set; }
         public IEnumerable<SalesDataViewModel> SalesData { get; set; } = new List<SalesDataViewModel>();
         public IEnumerable<User> LastUsers { get; set; } = new List<User>();
-        public IEnumerable<Product> MostProductSales { get; set; } = new List<Product>();
+        public IEnumerable<ProductSalesViewModel> MostProductSales { get; set; } = new List<ProductSalesViewModel>();
         public IEnumerable<Product> MostProductReviews { get; set; } = new List<Product>();
 
     }
