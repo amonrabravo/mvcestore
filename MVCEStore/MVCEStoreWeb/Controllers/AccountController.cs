@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MVCEStoreWeb.Controllers
 {
@@ -17,19 +18,16 @@ namespace MVCEStoreWeb.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
         private readonly IMessageService messageService;
-        private readonly IHttpContextAccessor httpContextAccessor;
 
         public AccountController(
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            IMessageService messageService,
-            IHttpContextAccessor httpContextAccessor
+            IMessageService messageService
             )
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.messageService = messageService;
-            this.httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Login(string returnUrl)
@@ -83,8 +81,8 @@ namespace MVCEStoreWeb.Controllers
             else
             {
                 await userManager.AddToRoleAsync(user, "Members");
-                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                var link = Url.RouteUrl("emailconfirmation", new { id = user.Id, token = token }, httpContextAccessor.HttpContext.Request.Scheme);
+                var token = HttpUtility.UrlEncode(await userManager.GenerateEmailConfirmationTokenAsync(user));
+                var link = Url.RouteUrl("emailconfirmation", new { id = user.Id, token }, HttpContext.Request.Scheme);
                 await messageService.SendEmailConfirmationMessage(model.UserName, model.Name, link);
                 return View("RegisterSuccess");
             }
@@ -94,7 +92,8 @@ namespace MVCEStoreWeb.Controllers
         public async Task<IActionResult> EmailConfirmation(string id, string token)
         {
             var user = await userManager.FindByIdAsync(id);
-            var result = await userManager.ConfirmEmailAsync(user, System.Net.WebUtility.UrlDecode(token));
+            var decodedToken = HttpUtility.UrlDecode(token);
+            var result = await userManager.ConfirmEmailAsync(user, decodedToken);
             return View(result.Succeeded ? "EmailConfirmationSuccess" : "EmailConfirmationFail");
         }
 
@@ -111,5 +110,13 @@ namespace MVCEStoreWeb.Controllers
             var model = await userManager.FindByNameAsync(User.Identity.Name);
             return View(model);
         }
+
+        [Authorize]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+
     }
 }

@@ -29,7 +29,14 @@
                     <input asp-for="IsPersistent" class="form-check-input" />
                     <label asp-for="IsPersistent" class="form-check-label"></label>
                 </div>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in-alt"></i> Giriş</button>
+                <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-sign-in-alt"></i> Giriş</button>
+                <a href="javascript:history.back()" class="btn btn-block btn-link text-secondary">İptal</a>
+                <hr />
+                <div class="text-center">
+                    <a asp-controller="Account" asp-action="Register">Yeni Üyelik</a>
+                    <span class="mx-4">&bull;</span>
+                    <a asp-controller="Account" asp-action="ResetPasswordForm">Parolamı Yenile</a>
+                </div>
             </div>
         </div>
         <div class="text-center small p-2">
